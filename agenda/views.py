@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import CitaForm
 from .models import Cita
-
+from rest_framework import viewsets
+from .serializers import CitaSerializer
 
 def agendar_cita(request):
 
@@ -32,3 +33,11 @@ def agendar_cita(request):
         'agenda/agendar.html',
         context
     )
+class CitaViewSet(viewsets.ModelViewSet):
+
+    queryset = Cita.objects.all().order_by(
+        'fecha',
+        'hora'
+    )
+
+    serializer_class = CitaSerializer
