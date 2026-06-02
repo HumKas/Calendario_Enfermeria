@@ -13,7 +13,7 @@
         }
 
         .container{
-            width:400px;
+            width:500px;
             margin:auto;
             background:white;
             padding:30px;
@@ -27,11 +27,34 @@
 
         button{
             width:100%;
-            padding:10px;
+            padding:12px;
             background:#3498db;
             color:white;
             border:none;
             border-radius:5px;
+            cursor:pointer;
+        }
+
+        table{
+            width:100%;
+            margin-top:30px;
+            border-collapse:collapse;
+        }
+
+        th, td{
+            border:1px solid #ddd;
+            padding:10px;
+            text-align:center;
+        }
+
+        th{
+            background:#3498db;
+            color:white;
+        }
+
+        .error{
+            color:red;
+            margin-bottom:15px;
         }
 
     </style>
@@ -47,6 +70,12 @@
 
         {% csrf_token %}
 
+        {% if form.errors %}
+            <div class="error">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+
         {{ form.as_p }}
 
         <button type="submit">
@@ -54,6 +83,38 @@
         </button>
 
     </form>
+
+    <h2>Citas Registradas</h2>
+
+    <table>
+
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Motivo</th>
+        </tr>
+
+        {% for cita in citas %}
+
+        <tr>
+            <td>{{ cita.nombre }}</td>
+            <td>{{ cita.fecha }}</td>
+            <td>{{ cita.hora }}</td>
+            <td>{{ cita.motivo }}</td>
+        </tr>
+
+        {% empty %}
+
+        <tr>
+            <td colspan="4">
+                No hay citas registradas
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
 
 </div>
 
